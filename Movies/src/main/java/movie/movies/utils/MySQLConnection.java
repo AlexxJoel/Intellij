@@ -10,6 +10,7 @@ public class MySQLConnection {
     public Connection getConnection() {
         final String DBNAME = "movies",
                 USERNAME = "root",
+                //PASSWORD = "Abejercito22?",
                 PASSWORD = "root",
 
 

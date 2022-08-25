@@ -27,6 +27,7 @@ public class ServletSongs extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         DaoSongs daoSongs = new DaoSongs();
         String option = request.getServletPath();
 
@@ -69,6 +70,10 @@ public class ServletSongs extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
+
         DaoSongs daoSongs = new DaoSongs();
         String option = request.getServletPath();
 
