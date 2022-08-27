@@ -1,4 +1,4 @@
-package movie.movies.utils;
+package students.examenrecupera.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,9 +8,8 @@ public class MySQLConnection {
 
     //metodo para hacer la conexion
     public Connection getConnection() {
-        final String DBNAME = "movies",
+        final String DBNAME = "persons",
                 USERNAME = "root",
-                //PASSWORD = "Abejercito22?",
                 PASSWORD = "root",
 
 
