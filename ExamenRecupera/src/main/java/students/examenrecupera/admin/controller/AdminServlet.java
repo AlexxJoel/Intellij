@@ -62,7 +62,7 @@ public class AdminServlet extends HttpServlet {
 
                     sesionLogin.setAttribute("id_user", admin.getId_user());
                     sesionLogin.setAttribute("name",admin.getName());
-                
+
 
                 response.sendRedirect("AdminServlet?accion=login&result-access="+(admin.getId_user()==0 ? "error" : "ok"));
 
