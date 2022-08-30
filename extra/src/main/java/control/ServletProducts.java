@@ -13,12 +13,18 @@ import java.util.List;
         urlPatterns = {
                 "/list-products", //get
                 "/save-products", //post
+                "/save-name", //post
                 "/update-status", //post
+                "/delete-product", //post
+                "/update-name",
+                "/see-product",
                 "/reset" //post
+
 
         }
 )
 public class ServletProducts extends HttpServlet {
+    int iteams = 0 ;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,6 +35,7 @@ public class ServletProducts extends HttpServlet {
             case "/list-products":
 
                 List<BeanProducts> listProducts = products.listProducts();
+                iteams = listProducts.size();
                 request.setAttribute("list", listProducts);
                 double selling = products.selling();
                 double canceled = products.totalCanceled();
@@ -42,6 +49,14 @@ public class ServletProducts extends HttpServlet {
 
 
                 break;
+            case "/see-product":
+                String idString1 = request.getParameter("id") != null ? request.getParameter("id") : "0";
+                BeanProducts beanProducts = products.seeProduct(Integer.parseInt(idString1));
+                request.setAttribute("product", beanProducts);
+                request.getRequestDispatcher("/WEB-INF/view/updateNameProduct.jsp").forward(request, response);
+                break;
+
+
             default:
                 System.out.println("ñaaaaaaaaaa");
         }
@@ -88,13 +103,40 @@ public class ServletProducts extends HttpServlet {
 
             case "/reset":
                 boolean result1 = false;
-                for (int i = 1; i <= 6; i++) {
+                for (int i = 1; i <= iteams; i++) {
                      result1 = products.reset(i);
 
                 }
 
                 response.sendRedirect("list-products?result-delete=" + (result1 ? "ok" : "error"));
                 break;
+
+            case "/save-name":
+                String name = request.getParameter("name")!= null ?(request.getParameter("name")) : "";
+
+                boolean result2 = products.saveProduct(name);
+                response.sendRedirect("list-products?result-save=" + (result2 ? "ok" : "error"));
+                break;
+
+            case "/delete-product":
+                String id = request.getParameter("id")!= null ?(request.getParameter("id")) : "0";
+                boolean result3 = products.deleteProduct(Integer.parseInt(id));
+                response.sendRedirect("list-products?result-deleteProduct=" + (result3 ? "ok" : "error"));
+                break;
+
+            case "/update-name":
+                String name1 = request.getParameter("name")!= null ?(request.getParameter("name")) : "";
+                String idString1 = request.getParameter("id") != null ? request.getParameter("id") : "0";
+                BeanProducts products2 = new BeanProducts();
+
+                products2.setId_products(Integer.parseInt(idString1));
+                products2.setName(name1);
+
+                boolean result4 = products.disabledStatus(products2);
+                response.sendRedirect("list-products?result-update=" + (result4 ? "ok" : "error"));
+                break;
+
+
             default:
                 System.out.println("ña post");
 

@@ -12,6 +12,8 @@ import java.util.List;
 public class DaoProducts {
 
 
+
+
     public List<BeanProducts> listProducts() {
 
         List<BeanProducts>  listProducts = new ArrayList<>();
@@ -160,14 +162,106 @@ public class DaoProducts {
     }
 
 
-  /*  public static void main(String[] args) {
-        double vendidos = new DaoProducts().selling();
+    //--------------------------------------------------------------------------------------
+
+    public boolean saveProduct(String name){
+        boolean result = false;
+        try
+                (Connection con  = MySQLConnection.getConnection();
+                 PreparedStatement pstm = con.prepareStatement("INSERT INTO `products`(`name`)VALUES(?)");
+
+                )
+        {
+            pstm.setString(1, name);
+            result = pstm.executeUpdate() == 1;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //-----------------------------------------------------------------------------------
+    public boolean deleteProduct(int id ){
+        boolean result = false;
+        try
+                (Connection con  = MySQLConnection.getConnection();
+                 PreparedStatement pstm = con.prepareStatement("DELETE FROM products WHERE (`id_products` = ?)");
+
+                )
+        {
+            pstm.setInt(1, id);
+            result = pstm.executeUpdate() == 1;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+//---------------------------------------------------------------------
+
+    public boolean updateName(BeanProducts products){
+        boolean result = false;
+        try
+                (Connection con  = MySQLConnection.getConnection();
+                 PreparedStatement pstm = con.prepareStatement(
+                         "UPDATE `shop`.`products` SET `name` = ? WHERE (`id_products` = ?)" );
+
+                )
+        {
+            pstm.setString(1, products.getName());
+            pstm.setInt(2,products.getId_products());
+
+            result = pstm.executeUpdate() == 1;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //----------------------------------------------------------------------------------
+    public BeanProducts seeProduct(int id) {
+        BeanProducts products = new BeanProducts();
+
+
+        try {
+            Connection connection = MySQLConnection.getConnection();
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement( "select * from products  WHERE (`id_products` = ?)" );
+            pstm.setInt(1, id );
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()){
+                products.setId_products(rs.getInt("id_products"));
+                products.setName(rs.getString("name"));
+                products.setPrice(rs.getDouble("price"));
+                products.setStatus(rs.getInt("status"));
+            };
+
+            rs.close();
+            connection.close();
+            pstm.close();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(products.getName());
+
+        return products;
+    }
+
+
+
+   public static void main(String[] args) {
+        /*double vendidos = new DaoProducts().selling();
         double canceladso = new DaoProducts().totalCanceled();
         double neto = vendidos - canceladso;
 
 
-        System.out.println(vendidos + "   "+ canceladso + "  " + neto );
-    }*/
+        System.out.println(vendidos + "   "+ canceladso + "  " + neto );*/
+
+       new  DaoProducts().seeProduct(1);
+    }
 
 
 }
