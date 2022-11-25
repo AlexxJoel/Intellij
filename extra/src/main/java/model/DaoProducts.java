@@ -245,7 +245,7 @@ public class DaoProducts {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        System.out.println(products.getName());
+      //  System.out.println(products.getName());
 
         return products;
     }
